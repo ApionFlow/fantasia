@@ -38,8 +38,15 @@ body {
      original has and reads as night haze rather than a blurry photo. */
   width: min(46rem, 100%);
   background: url("assets/night-large.jpg") right top / cover no-repeat;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.2) 18%, rgba(0,0,0,.6) 40%, #000 72%);
-          mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.2) 18%, rgba(0,0,0,.6) 40%, #000 72%);
+  /* The fade follows a smoothstep curve: it starts and ends with zero slope, so there is
+     no point where the eye can catch the edge of the image. A plain linear ramp starts
+     with a kink, and on a wide screen that kink reads as a vertical line. */
+  --fade: linear-gradient(to right,
+    rgba(0,0,0,0) 0%, rgba(0,0,0,.028) 8%, rgba(0,0,0,.104) 16%, rgba(0,0,0,.216) 24%,
+    rgba(0,0,0,.352) 32%, rgba(0,0,0,.5) 40%, rgba(0,0,0,.648) 48%, rgba(0,0,0,.784) 56%,
+    rgba(0,0,0,.896) 64%, rgba(0,0,0,.972) 72%, #000 80%);
+  -webkit-mask-image: var(--fade);
+          mask-image: var(--fade);
   pointer-events: none;
   z-index: 0;
 }
